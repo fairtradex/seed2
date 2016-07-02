@@ -2,25 +2,6 @@ const webpack = require('webpack');
 const path = require('path');
 const fs = require('fs');
 
-//
-// module.exports = {
-//     entry: [
-//         __dirname + '/src/index.js'
-//     ],
-//     output: {
-//         path: __dirname + '/dist',
-//         filename: 'test.bundle.js'
-//     },
-//     target: 'server',
-//     devtool: 'source-map',
-//     module: {
-//         loaders: [{
-//             test: /\.js$/, exclude: /node_modules/,
-//             loader: "babel-loader"
-//         }]
-//     }
-// };
-
 let nodeModules = {};
 fs.readdirSync('node_modules')
     .filter(function(x) {
@@ -35,7 +16,11 @@ module.exports = {
     target: 'node',
     output: {
         path: path.join(__dirname, 'build'),
-        filename: 'backend.js'
+        filename: 'server.js'
+    },
+    babel: {
+        presets: ['es2015', 'stage-3'],
+        plugins: ['add-module-exports']
     },
     module: {
         loaders: [

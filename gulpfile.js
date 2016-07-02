@@ -2,16 +2,17 @@
  * Created by vadimsky on 01/07/16.
  */
 const gulp = require('gulp');
-const babel = require('gulp-babel');
+const gulpBabel = require('gulp-babel');
 const webpack = require('webpack');
 const path = require('path');
 const fs = require('fs');
+const sourcemaps = require("gulp-sourcemaps");
 
 const DeepMerge = require('deep-merge');
 const nodemon = require('nodemon');
 const WebpackDevServer = require('webpack-dev-server');
-
-
+const mocha = require('gulp-mocha');
+var babel = require('babel-core/register');
 
 var deepmerge = DeepMerge(function(target, source, key) {
     if(target instanceof Array) {
@@ -21,11 +22,10 @@ var deepmerge = DeepMerge(function(target, source, key) {
 });
 
 // generic
-
 var defaultConfig = {
     module: {
         loaders: [
-            {test: /\.js$/, exclude: /node_modules/, loaders: ['babel'] },
+            {test: /\.js$/, exclude: /node_modules/, loaders: ['gulpBabel'] },
         ]
     }
 };
@@ -40,23 +40,22 @@ function config(overrides) {
     return deepmerge(defaultConfig, overrides || {});
 }
 
-// frontend
-
-var frontendConfig = config({
-    entry: [
-        'webpack-dev-server/client?http://localhost:3000',
-        'webpack/hot/only-dev-server',
-        './static/js/main.js'
-    ],
-    output: {
-        path: path.join(__dirname, 'static/build'),
-        publicPath: 'http://localhost:3000/build',
-        filename: 'frontend.js'
-    },
-    plugins: [
-        new webpack.HotModuleReplacementPlugin({ quiet: true })
-    ]
-});
+// // frontend
+// var frontendConfig = config({
+//     entry: [
+//         'webpack-dev-server/client?http://localhost:3000',
+//         'webpack/hot/only-dev-server',
+//         './static/js/main.js'
+//     ],
+//     output: {
+//         path: path.join(__dirname, 'static/build'),
+//         publicPath: 'http://localhost:3000/build',
+//         filename: 'frontend.js'
+//     },
+//     plugins: [
+//         new webpack.HotModuleReplacementPlugin({ quiet: true })
+//     ]
+// });
 
 // backend
 
@@ -72,7 +71,7 @@ var backendConfig = config({
     target: 'node',
     output: {
         path: path.join(__dirname, 'build'),
-        filename: 'backend.js'
+        filename: 'server.js'
     },
     node: {
         __dirname: true,
@@ -113,26 +112,26 @@ function onBuild(done) {
     }
 }
 
-gulp.task('frontend-build', function(done) {
-    webpack(frontendConfig).run(onBuild(done));
-});
-
-gulp.task('frontend-watch', function() {
-    //webpack(frontendConfig).watch(100, onBuild());
-
-    new WebpackDevServer(webpack(frontendConfig), {
-        publicPath: frontendConfig.output.publicPath,
-        hot: true
-    }).listen(3000, 'localhost', function (err, result) {
-        if(err) {
-            console.log(err);
-        }
-        else {
-            console.log('webpack dev server listening at localhost:3000');
-        }
-    });
-
-});
+// gulp.task('frontend-build', function(done) {
+//     webpack(frontendConfig).run(onBuild(done));
+// });
+//
+// gulp.task('frontend-watch', function() {
+//     //webpack(frontendConfig).watch(100, onBuild());
+//
+//     new WebpackDevServer(webpack(frontendConfig), {
+//         publicPath: frontendConfig.output.publicPath,
+//         hot: true
+//     }).listen(3000, 'localhost', function (err, result) {
+//         if(err) {
+//             console.log(err);
+//         }
+//         else {
+//             console.log('webpack dev server listening at localhost:3000');
+//         }
+//     });
+//
+// });
 
 gulp.task('backend-build', function(done) {
     webpack(backendConfig).run(onBuild(done));
@@ -150,17 +149,28 @@ gulp.task('backend-watch', function(done) {
     });
 });
 
-gulp.task('build', ['frontend-build', 'backend-build']);
-gulp.task('watch', ['frontend-watch', 'backend-watch']);
+gulp.task('mocha', function() {
+    return gulp.src(['./src/**/*.js'])
+        .pipe(mocha({
+            compilers: {
+                js: babel
+            }
+        }));
+});
 
-gulp.task('run', ['backend-watch', 'frontend-watch'], function() {
+
+gulp.task('tests', ['mocha']);
+gulp.task('build', [/*'frontend-build',*/ 'backend-build', 'mocha']);
+gulp.task('watch', [/*'frontend-watch',*/ 'backend-watch']);
+
+gulp.task('run', ['backend-watch', /*'frontend-watch'*/], function() {
     nodemon({
         execMap: {
             js: 'node'
         },
-        script: path.join(__dirname, 'build/backend'),
+        script: path.join(__dirname, 'build/server'),
         ignore: ['*'],
-        watch: ['foo/'],
+        watch: ['src/'],
         ext: 'noop'
     }).on('restart', function() {
         console.log('Patched!');
