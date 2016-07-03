@@ -2,7 +2,6 @@
  * Created by vadimsky on 01/07/16.
  */
 const gulp = require('gulp');
-const gulpBabel = require('gulp-babel');
 const webpack = require('webpack');
 const path = require('path');
 const fs = require('fs');
@@ -25,7 +24,7 @@ var deepmerge = DeepMerge(function(target, source, key) {
 var defaultConfig = {
     module: {
         loaders: [
-            {test: /\.js$/, exclude: /node_modules/, loaders: ['gulpBabel'] },
+            {test: /\.js$/, exclude: /node_modules/, loaders: ['babel'] },
         ]
     }
 };
@@ -71,7 +70,7 @@ var backendConfig = config({
     target: 'node',
     output: {
         path: path.join(__dirname, 'build'),
-        filename: 'server.js'
+        filename: 'index.js'
     },
     node: {
         __dirname: true,
@@ -168,7 +167,7 @@ gulp.task('run', ['backend-watch', /*'frontend-watch'*/], function() {
         execMap: {
             js: 'node'
         },
-        script: path.join(__dirname, 'build/server'),
+        script: path.join(__dirname, 'build/index'),
         ignore: ['*'],
         watch: ['src/'],
         ext: 'noop'

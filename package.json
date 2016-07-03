@@ -9,7 +9,7 @@
     "bundle": "cp dist/ & webpack -p ./dist/bundle.js",
     "tester": "babel-node ./src/index.js",
     "test": " mocha src/**/*.spec.js --compilers js:babel-register",
-    "b": "babel-node"
+    "coverage": "babel-node ./node_modules/.bin/isparta cover _mocha"
   },
   "keywords": [],
   "author": "VadimSKY",
@@ -34,6 +34,8 @@
     "gulp-babel": "^6.1.2",
     "gulp-mocha": "^2.2.0",
     "gulp-sourcemaps": "^1.6.0",
+    "isparta": "^4.0.0",
+    "istanbul": "^0.4.4",
     "mocha": "^2.5.3",
     "monkey-hot-loader": "0.0.3",
     "nodemon": "^1.9.2",
