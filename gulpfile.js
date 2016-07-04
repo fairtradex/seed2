@@ -5,6 +5,7 @@ const gulp = require('gulp');
 const webpack = require('webpack');
 const path = require('path');
 const fs = require('fs');
+const del = require('del');
 const sourcemaps = require("gulp-sourcemaps");
 
 const DeepMerge = require('deep-merge');
@@ -132,6 +133,10 @@ function onBuild(done) {
 //
 // });
 
+gulp.task('clean', function(){
+    return del('build')
+});
+
 gulp.task('backend-build', function(done) {
     webpack(backendConfig).run(onBuild(done));
 });
@@ -159,7 +164,8 @@ gulp.task('mocha', function() {
 
 
 gulp.task('tests', ['mocha']);
-gulp.task('build', [/*'frontend-build',*/ 'backend-build', 'mocha']);
+gulp.task('clean:build', ['clean']);
+gulp.task('build', [/*'frontend-build',*/ 'clean', 'backend-build', 'mocha']);
 gulp.task('watch', [/*'frontend-watch',*/ 'backend-watch']);
 
 gulp.task('run', ['backend-watch', /*'frontend-watch'*/], function() {
