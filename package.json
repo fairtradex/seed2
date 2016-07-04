@@ -44,6 +44,9 @@
   },
   "dependencies": {
     "assert": "^1.4.1",
-    "path": "^0.12.7"
+    "async": "^2.0.0-rc.6",
+    "node-logger": "0.0.1",
+    "path": "^0.12.7",
+    "winston": "^2.2.0"
   }
 }

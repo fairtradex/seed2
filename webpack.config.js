@@ -19,12 +19,14 @@ module.exports = {
         filename: 'server.js'
     },
     babel: {
-        presets: ['es2015', 'stage-3'],
+        presets: ['es2015'],
         plugins: ['add-module-exports']
     },
     module: {
         loaders: [
-            {test: /\.js$/, exclude: /node_modules/, loaders: ['babel'] },
+            {test: /\.js$/,
+                include: /lib/,
+                exclude: /node_modules/, loaders: ['babel'] },
         ]
     },
     externals: nodeModules,
@@ -32,47 +34,3 @@ module.exports = {
 }
 
 
-
-// module.exports = {
-//     entry: [
-//         __dirname + '/src/index.js'
-//     ],
-//     output: {
-//         path: __dirname + '/dist',
-//         filename: 'test.bundle.js'
-//     },
-//     target: 'web',
-//     devtool: 'source-map',
-//     babel: {
-//         presets: ['es2015', 'stage-0'],
-//         plugins: ['add-module-exports']
-//     },
-//     module: {
-//         loaders: [{
-//             test: /test\/src\/.*\.js$/,
-//             loader: 'babel'
-//         }]
-//     },
-//     resolve: {
-//         moduleDirectories: ['lib'],
-//         extensions: ['', '.js']
-//     }
-// };
-//
-//
-// module.exports = {
-//     entry: './main.js',
-//     output: { path: __dirname, filename: 'bundle.js' },
-//     module: {
-//         loaders: [
-//             {
-//                 test: /.jsx?$/,
-//                 loader: 'babel-loader',
-//                 exclude: /node_modules/,
-//                 query: {
-//                     presets: ['es2015', 'react']
-//                 }
-//             }
-//         ]
-//     },
-// };
