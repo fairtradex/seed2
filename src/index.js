@@ -1,4 +1,4 @@
-import Tester from "./test/tester";
+import Tester from "./tester/tester";
 
 /**
  * Created by vadimsky on 01/07/16.

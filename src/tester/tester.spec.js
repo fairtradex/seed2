@@ -6,7 +6,7 @@ import Tester from "./tester";
 
 let assert = require('chai').assert;
 
-describe("The tester test :-)", function () {
+describe("The tester tester :-)", function () {
     let tester;
     before(function () {
         tester = new Tester("Vasya");
