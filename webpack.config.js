@@ -18,22 +18,12 @@ module.exports = {
         path: path.join(__dirname, 'build'),
         filename: 'index.js'
     },
-    // babel: {
-    //     presets: ['es2015'],
-    //     plugins: ['add-module-exports']
-    // },
     module: {
         loaders: [{
                 test: /\.js$/,
                 exclude: /node_modules/,
                 loaders: ['json-loader', 'babel-loader']
             }]
-        // loaders: [
-        //     {
-        //         test: /\.json$/,
-        //         loader: "json-loader"
-        //     }
-        // ]
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
@@ -43,10 +33,9 @@ module.exports = {
     resolve: {
         extensions: ['', '.jsx', '.js', '.json'],
         root: [
-            path.resolve('./src'),
             path.resolve(__dirname, 'src'),
-            path.resolve(__dirname, 'node_modules'),
-            path.resolve(__dirname, 'node_modules/winston/lib')
+            path.resolve(__dirname, 'config'),
+            path.resolve(__dirname, 'node_modules')
         ],
         modulesDirectories: [
             'node_modules',

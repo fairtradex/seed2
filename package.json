@@ -41,6 +41,7 @@
     "json-loader": "^0.5.4",
     "mocha": "^2.5.3",
     "monkey-hot-loader": "0.0.3",
+    "nconf": "^0.8.4",
     "nodemon": "^1.9.2",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1",
