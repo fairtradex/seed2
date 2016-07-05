@@ -16,20 +16,56 @@ module.exports = {
     target: 'node',
     output: {
         path: path.join(__dirname, 'build'),
-        filename: 'server.js'
+        filename: 'index.js'
     },
-    babel: {
-        presets: ['es2015'],
-        plugins: ['add-module-exports']
-    },
+    // babel: {
+    //     presets: ['es2015'],
+    //     plugins: ['add-module-exports']
+    // },
     module: {
-        loaders: [
-            {test: /\.js$/,
-                include: /lib/,
-                exclude: /node_modules/, loaders: ['babel'] },
+        loaders: [{
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loaders: ['json-loader', 'babel-loader']
+            }]
+        // loaders: [
+        //     {
+        //         test: /\.json$/,
+        //         loader: "json-loader"
+        //     }
+        // ]
+    },
+    plugins: [
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin(),
+        devFlagPlugin
+    ],
+    resolve: {
+        extensions: ['', '.jsx', '.js', '.json'],
+        root: [
+            path.resolve('./src'),
+            path.resolve(__dirname, 'src'),
+            path.resolve(__dirname, 'node_modules'),
+            path.resolve(__dirname, 'node_modules/winston/lib')
+        ],
+        modulesDirectories: [
+            'node_modules',
+            'node_modules/winston/lib/winston'
         ]
     },
-    externals: nodeModules,
+    resolveLoader: {
+        root: './node_modules'
+    },
+    node: {
+        fs: "empty"
+    },
+    externals: {
+        'fs': 'require("fs")',
+        'buffer': 'require("buffer")',
+        'winston': 'require("winston")',
+        'system': '{}',
+        'file': '{}'
+    },
     devtool: 'sourcemap'
 }
 

@@ -8,6 +8,7 @@
     "start": "webpack-dev-server",
     "bundle": "cp dist/ & webpack -p ./dist/bundle.js",
     "tester": "babel-node ./src/index.js",
+    "run": "node --harmony ./build/index.js",
     "test": " mocha src/**/*.spec.js --compilers js:babel-register",
     "coverage": "babel-node ./node_modules/.bin/isparta cover _mocha"
   },
@@ -37,15 +38,18 @@
     "gulp-sourcemaps": "^1.6.0",
     "isparta": "^4.0.0",
     "istanbul": "^0.4.4",
+    "json-loader": "^0.5.4",
     "mocha": "^2.5.3",
     "monkey-hot-loader": "0.0.3",
     "nodemon": "^1.9.2",
     "webpack": "^1.13.1",
-    "webpack-dev-server": "^1.14.1"
+    "webpack-dev-server": "^1.14.1",
+    "webpack-es6-config": "^1.0.0"
   },
   "dependencies": {
     "assert": "^1.4.1",
     "async": "^2.0.0-rc.6",
+    "color": "^0.11.3",
     "node-logger": "0.0.1",
     "path": "^0.12.7",
     "winston": "^2.2.0"

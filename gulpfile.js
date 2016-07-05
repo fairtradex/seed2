@@ -40,22 +40,6 @@ function config(overrides) {
     return deepmerge(defaultConfig, overrides || {});
 }
 
-// // frontend
-// var frontendConfig = config({
-//     entry: [
-//         'webpack-dev-server/client?http://localhost:3000',
-//         'webpack/hot/only-dev-server',
-//         './static/js/main.js'
-//     ],
-//     output: {
-//         path: path.join(__dirname, 'static/build'),
-//         publicPath: 'http://localhost:3000/build',
-//         filename: 'frontend.js'
-//     },
-//     plugins: [
-//         new webpack.HotModuleReplacementPlugin({ quiet: true })
-//     ]
-// });
 
 // backend
 
@@ -74,25 +58,10 @@ var backendConfig = config({
         filename: 'index.js'
     },
     node: {
-        __dirname: true,
+        __dirname: false,
         __filename: true
     },
-    // externals: [
-    //     function(context, request, callback) {
-    //         var pathStart = request.split('/')[0];
-    //         if (nodeModules.indexOf(pathStart) >= 0 && request != 'webpack/hot/signal.js') {
-    //             return callback(null, "commonjs " + request);
-    //         }
-    //         callback();
-    //     }
-    // ],
     recordsPath: path.join(__dirname, 'build/_records')
-    // plugins: [
-    //     new webpack.IgnorePlugin(/\.(css|less)$/),
-    //     new webpack.BannerPlugin('require("source-map-support").install();',
-    //         { raw: true, entryOnly: false }),
-    //     new webpack.HotModuleReplacementPlugin({ quiet: true })
-    // ]
 });
 
 // tasks
@@ -112,26 +81,6 @@ function onBuild(done) {
     }
 }
 
-// gulp.task('frontend-build', function(done) {
-//     webpack(frontendConfig).run(onBuild(done));
-// });
-//
-// gulp.task('frontend-watch', function() {
-//     //webpack(frontendConfig).watch(100, onBuild());
-//
-//     new WebpackDevServer(webpack(frontendConfig), {
-//         publicPath: frontendConfig.output.publicPath,
-//         hot: true
-//     }).listen(3000, 'localhost', function (err, result) {
-//         if(err) {
-//             console.log(err);
-//         }
-//         else {
-//             console.log('webpack dev server listening at localhost:3000');
-//         }
-//     });
-//
-// });
 
 gulp.task('clean', function(){
     return del('build')
@@ -154,7 +103,7 @@ gulp.task('backend-watch', function(done) {
 });
 
 gulp.task('mocha', function() {
-    return gulp.src(['./src/**/*.js'])
+    return gulp.src(['./src/**/*.spec.js'])
         .pipe(mocha({
             compilers: {
                 js: babel

@@ -2,13 +2,14 @@
  * Created by vadimsky on 01/07/16.
  */
 
-import GetLogger from "../lib/logger";
-//
- const log = GetLogger(module);
+
+import logger from '../logger/logger.service';
+
+logger.log('info', 'Tester module running...');
 export default class Tester {
     constructor (name) {
         console.log("Tester created, with name: ", name);
-        log.info("Zhopa");
+        logger.log('info', 'Tester created, with name:' + name);
         this._name = name;
     }
 

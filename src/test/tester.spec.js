@@ -3,8 +3,8 @@
  */
 import 'babel-polyfill'
 import Tester from "./tester";
-let assert = require('chai').assert;
 
+let assert = require('chai').assert;
 
 describe("The tester test :-)", function () {
     let tester;
@@ -18,8 +18,6 @@ describe("The tester test :-)", function () {
         tester.name = "Haim";
         assert.equal("Haim", tester.name);
     });
-
-    
 });
 
 
