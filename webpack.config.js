@@ -25,11 +25,6 @@ module.exports = {
     },
     module: {
         loaders: [
-            // {
-            //     test: /\.js$/,
-            //     exclude: /node_modules/,
-            //     loaders: ['json-loader', 'babel-loader']
-            // },
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
@@ -44,22 +39,20 @@ module.exports = {
         ]
 
     },
-    plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin(),
-        devFlagPlugin
-    ],
+    // plugins: [
+    //     new webpack.HotModuleReplacementPlugin(),
+    //     new webpack.NoErrorsPlugin(),
+    //     devFlagPlugin
+    // ],
     resolve: {
         extensions: ['', '.jsx', '.js', '.json'],
         root: [
             path.resolve('./src'),
             path.resolve(__dirname, 'src'),
-            path.resolve(__dirname, 'node_modules'),
-            path.resolve(__dirname, 'node_modules/winston/lib')
+            path.resolve(__dirname, 'node_modules')
         ],
         modulesDirectories: [
-            'node_modules',
-            'node_modules/winston/lib/winston'
+            'node_modules'
         ]
     },
     resolveLoader: {
